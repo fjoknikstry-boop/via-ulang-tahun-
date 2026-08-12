@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root{
+    --bg: #0b0810;
+    --bg2: #150f1c;
+    --card: #1a1220;
+    --wine: #7a2340;
+    --wine-deep: #4a1526;
+    --gold: #c9a876;
+    --gold-soft: #a8895f;
+    --ivory: #ece4d8;
+    --muted: #8f7f92;
+    --line: #3a2a3a;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ivory);
+    font-family: 'EB Garamond', serif;
+    overflow-x:hidden;
+  }
+
+  /* ---------- AMBIENT EMBERS ---------- */
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  .ember{
+    position:absolute; bottom:-10px; width:3px; height:3px; border-radius:50%;
+    background: var(--gold); opacity:0.7; box-shadow: 0 0 6px 1px var(--gold);
+    animation: rise linear infinite;
+  }
+  @keyframes rise{
+    0%{ transform: translateY(0) translateX(0); opacity:0; }
+    10%{ opacity:0.8; }
+    90%{ opacity:0.4; }
+    100%{ transform: translateY(-105vh) translateX(20px); opacity:0; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:2rem;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(122,35,64,0.25), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(122,35,64,0.15), transparent 50%),
+      var(--bg);
+    transition: opacity 1s ease, filter 1s ease;
+  }
+  .hero.opened{ opacity:0; filter: blur(6px); pointer-events:none; position:absolute; inset:0; }
+
+  .eyebrow{
+    font-family:'Cinzel', serif; letter-spacing:0.35em; font-size:0.7rem;
+    color: var(--gold-soft); text-transform:uppercase; margin-bottom:1.5rem;
+  }
+  .hero h1{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;
+    font-size: clamp(2.8rem, 8vw, 5.5rem); color: var(--ivory); line-height:1;
+    text-shadow: 0 0 40px rgba(201,168,118,0.25);
+  }
+  .hero .sub{
+    margin-top:1.2rem; color: var(--muted); font-size:1.05rem; font-style:italic;
+    max-width:420px;
+  }
+
+  .seal-wrap{ margin-top:3.5rem; }
+  .seal{
+    width:88px; height:88px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #9a3355, var(--wine-deep) 70%);
+    border: 1px solid var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; position:relative;
+    box-shadow: 0 0 0 1px rgba(201,168,118,0.15), 0 8px 30px rgba(0,0,0,0.6);
+    transition: transform .35s ease;
+  }
+  .seal:hover{ transform: scale(1.06); }
+  .seal svg{ width:34px; height:34px; }
+  .seal-label{
+    margin-top:1rem; font-family:'Cinzel',serif; letter-spacing:0.2em;
+    font-size:0.7rem; color:var(--muted); text-transform:uppercase;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .story{
+    max-width:760px; margin:0 auto; padding: 8rem 1.5rem 6rem;
+    position:relative; z-index:1;
+  }
+  .story-title{
+    text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:clamp(2rem,5vw,2.8rem); color:var(--ivory); margin-bottom:1rem;
+  }
+  .story-sub{
+    text-align:center; color:var(--muted); font-size:1rem; margin-bottom:5rem;
+  }
+
+  .timeline{ position:relative; }
+  .timeline::before{
+    content:''; position:absolute; left:50%; top:0; bottom:0; width:1px;
+    background: linear-gradient(to bottom, transparent, var(--line) 8%, var(--line) 92%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .entry{
+    position:relative; width:50%; padding: 0 3.5rem 5rem; opacity:0; transform: translateY(30px);
+    transition: opacity .9s ease, transform .9s ease;
+  }
+  .entry.visible{ opacity:1; transform:translateY(0); }
+  .entry:nth-child(odd){ left:0; text-align:right; }
+  .entry:nth-child(even){ left:50%; text-align:left; }
+
+  .entry::after{
+    content:''; position:absolute; top:6px; width:9px; height:9px;
+    border-radius:50%; background: var(--gold); box-shadow:0 0 10px 2px rgba(201,168,118,0.5);
+  }
+  .entry:nth-child(odd)::after{ right:-5px; }
+  .entry:nth-child(even)::after{ left:-5px; }
+
+  .entry-date{
+    font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.2em;
+    color: var(--gold-soft); text-transform:uppercase; margin-bottom:0.5rem;
+  }
+  .entry-title{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
+    font-size:1.6rem; color:var(--ivory); margin-bottom:0.7rem;
+  }
+  .entry-text{ color:var(--muted); font-size:1rem; line-height:1.65; margin-bottom:1.1rem; }
+
+  .photo-frame{
+    width:100%; aspect-ratio:4/3; border:1px dashed var(--line);
+    background: linear-gradient(160deg, var(--card), var(--bg2));
+    display:flex; align-items:center; justify-content:center; border-radius:2px;
+    overflow:hidden;
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-frame{ display:flex; align-items:center; justify-content:center; }
+  .photo-frame .ph-label{
+    font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.12em;
+    color: var(--muted); text-align:center; padding:1rem; text-transform:uppercase;
+  }
+
+  @media (max-width:640px){
+    .timeline::before{ left:18px; }
+    .entry, .entry:nth-child(even){ left:0; width:100%; text-align:left; padding:0 0 3.5rem 3rem; }
+    .entry:nth-child(odd)::after, .entry:nth-child(even)::after{ left:14px; }
+  }
+
+  /* ---------- FINALE ---------- */
+  .finale{
+    position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:3rem 1.5rem;
+    background: radial-gradient(ellipse at 50% 50%, rgba(122,35,64,0.2), transparent 65%);
+  }
+  .candle{ width:26px; height:70px; position:relative; margin-bottom:2.5rem; cursor:pointer; }
+  .candle .wax{
+    position:absolute; bottom:0; width:100%; height:100%; border-radius:3px 3px 8px 8px;
+    background: linear-gradient(180deg, #e8ddc9, #cbb98f);
+  }
+  .flame{
+    position:absolute; top:-26px; left:50%; transform:translateX(-50%);
+    width:12px; height:22px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: radial-gradient(circle at 50% 70%, #fff3c4, var(--gold) 60%, #b5772e 100%);
+    box-shadow: 0 0 20px 6px rgba(201,168,118,0.5);
+    animation: flicker 2.4s ease-in-out infinite;
+    transition: opacity .5s ease, transform .5s ease;
+    transform-origin: bottom center;
+  }
+  @keyframes flicker{
+    0%,100%{ transform: translateX(-50%) rotate(-2deg) scaleY(1); }
+    50%{ transform: translateX(-50%) rotate(2deg) scaleY(1.08); }
+  }
+  .candle.blown .flame{ opacity:0; transform: translateX(-50%) scaleY(0); }
+  .candle-hint{ font-size:0.75rem; color:var(--muted); font-style:italic; margin-bottom:3rem; }
+
+  .finale-msg{ max-width:520px; opacity:0; transform:translateY(15px); transition: opacity 1s ease, transform 1s ease; }
+  .finale-msg.show{ opacity:1; transform:translateY(0); }
+  .finale-msg .eyebrow{ margin-bottom:1rem; }
+  .finale-msg h2{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
+    font-size:clamp(2.2rem,6vw,3.4rem); color:var(--ivory); margin-bottom:1.5rem;
+  }
+  .finale-msg p{ color:var(--muted); font-size:1.08rem; line-height:1.75; }
+  .finale-msg .signature{
+    margin-top:2.5rem; font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.2rem; color: var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="eyebrow">Sebuah Surat Untuk</div>
+  <h1>[Nama Dia]</h1>
+  <p class="sub">Sebelum kamu lanjut, tutup mata sebentar &mdash; lalu klik segelnya.</p>
+  <div class="seal-wrap">
+    <div class="seal" id="sealBtn" role="button" aria-label="Buka surprise">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#e8ddc9" stroke-width="1.4">
+        <path d="M12 21s-7.5-4.5-9.5-9.2C.8 7.8 3 4.5 6.3 4.5c2 0 3.3 1 3.7 2 .4-1 1.7-2 3.7-2 3.3 0 5.5 3.3 3.8 7.3C19.5 16.5 12 21 12 21Z"/>
+      </svg>
+    </div>
+    <div class="seal-label">Buka Kenangan</div>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="story" id="story">
+  <div class="story-title">Perjalanan Kita</div>
+  <div class="story-sub">Setiap bab kecil, yang jadi cerita besar.</div>
+
+  <div class="timeline">
+
+    <div class="entry">
+      <div class="entry-date">Bab Satu &middot; [Tanggal]</div>
+      <div class="entry-title">Awal Bertemu</div>
+      <p class="entry-text">Ganti teks ini dengan cerita gimana kalian pertama kali kenal &mdash; tempatnya, momennya, apa yang bikin dia beda dari yang lain.</p>
+      <div class="photo-frame" data-slot="1"><span class="ph-label">Taro foto 1 di sini<br>(edit kode: cari data-slot="1")</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Bab Dua &middot; [Tanggal]</div>
+      <div class="entry-title">Kencan Pertama</div>
+      <p class="entry-text">Ceritain momen kencan pertama kalian &mdash; gugupnya, lucunya, atau hal kecil yang masih kamu inget sampe sekarang.</p>
+      <div class="photo-frame" data-slot="2"><span class="ph-label">Taro foto 2 di sini<br>(edit kode: cari data-slot="2")</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Bab Tiga &middot; [Tanggal]</div>
+      <div class="entry-title">Saat Kita Jadian</div>
+      <p class="entry-text">Momen kalian resmi jadi sepasang &mdash; tulis apa yang kamu rasain waktu itu, atau apa yang bikin kamu yakin dia yang tepat.</p>
+      <div class="photo-frame" data-slot="3"><span class="ph-label">Taro foto 3 di sini<br>(edit kode: cari data-slot="3")</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Bab Empat &middot; Sepanjang Jalan</div>
+      <div class="entry-title">Melewati Hari-Hari</div>
+      <p class="entry-text">Cerita tentang perjalanan kalian sejauh ini &mdash; suka duka, hal-hal kecil yang kalian lewatin bareng, yang bikin hubungan ini terasa nyata.</p>
+      <div class="photo-frame" data-slot="4"><span class="ph-label">Taro foto 4 di sini<br>(edit kode: cari data-slot="4")</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Bab Lima &middot; Sekarang</div>
+      <div class="entry-title">Di Sini, Hari Ini</div>
+      <p class="entry-text">Dan sekarang, di hari ulang tahunnya, kamu masih di sini &mdash; makin sayang, makin yakin. Tulis sesuatu yang jujur dari hati.</p>
+      <div class="photo-frame" data-slot="5"><span class="ph-label">Taro foto 5 di sini<br>(edit kode: cari data-slot="5")</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale">
+  <div class="candle" id="candle">
+    <div class="flame"></div>
+    <div class="wax"></div>
+  </div>
+  <div class="candle-hint" id="candleHint">Klik lilinnya, buat satu permintaan.</div>
+
+  <div class="finale-msg" id="finaleMsg">
+    <div class="eyebrow">Selamat Ulang Tahun</div>
+    <h2>[Nama Dia]</h2>
+    <p>Ganti paragraf ini dengan pesan ulang tahun paling jujur yang kamu punya. Gak perlu puitis banget, yang penting tulus &mdash; tentang kenapa dia berharga, apa yang kamu doain buat dia, dan kenapa kamu bersyukur ada dia.</p>
+    <div class="signature">&mdash; [Nama Kamu]</div>
+  </div>
+</section>
+
+<script>
+  const emberContainer = document.getElementById('embers');
+  for(let i=0;i<28;i++){
+    const e = document.createElement('div');
+    e.className='ember';
+    e.style.left = Math.random()*100+'vw';
+    e.style.animationDuration = (6+Math.random()*8)+'s';
+    e.style.animationDelay = (Math.random()*10)+'s';
+    emberContainer.appendChild(e);
+  }
+
+  document.getElementById('sealBtn').addEventListener('click', function(){
+    document.getElementById('hero').classList.add('opened');
+    setTimeout(()=>{
+      document.getElementById('story').scrollIntoView({behavior:'smooth'});
+    }, 300);
+  });
+
+  const entries = document.querySelectorAll('.entry');
+  const io = new IntersectionObserver((items)=>{
+    items.forEach(item=>{
+      if(item.isIntersecting) item.target.classList.add('visible');
+    });
+  }, { threshold: 0.25 });
+  entries.forEach(el=>io.observe(el));
+
+  document.getElementById('candle').addEventListener('click', function(){
+    this.classList.add('blown');
+    document.getElementById('candleHint').style.opacity='0';
+    document.getElementById('finaleMsg').classList.add('show');
+  });
+</script>
+
+</body>
+</html>
