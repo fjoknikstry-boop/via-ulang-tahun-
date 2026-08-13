@@ -184,11 +184,60 @@
     font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
     font-size:clamp(2.2rem,6vw,3.4rem); color:var(--ivory); margin-bottom:1.5rem;
   }
-  .finale-msg p{ color:var(--muted); font-size:1.08rem; line-height:1.75; }
+  .finale-msg p{
+    color:var(--muted); font-size:1.05rem; line-height:1.9;
+    white-space: pre-line; text-align:left;
+  }
   .finale-msg .signature{
     margin-top:2.5rem; font-family:'Cormorant Garamond',serif; font-style:italic;
-    font-size:1.2rem; color: var(--gold);
+    font-size:1.2rem; color: var(--gold); text-align:center;
   }
+
+  /* ---------- VIGNETTE ---------- */
+  body::before{
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:3;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
+  }
+
+  /* ---------- ORNAMENTAL DIVIDER ---------- */
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:1rem;
+    max-width:300px; margin:0 auto; position:relative; z-index:1;
+  }
+  .divider::before, .divider::after{
+    content:''; flex:1; height:1px;
+    background: linear-gradient(to right, transparent, var(--line));
+  }
+  .divider::after{ background: linear-gradient(to left, transparent, var(--line)); }
+  .divider span{
+    color: var(--gold-soft); font-size:0.9rem; transform:rotate(45deg);
+    display:inline-block; border:1px solid var(--gold-soft); width:8px; height:8px;
+  }
+
+  /* ---------- SCROLL CUE ---------- */
+  .scroll-cue{
+    position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+    color: var(--muted); opacity:0.6; animation: bob 2.4s ease-in-out infinite;
+  }
+  .scroll-cue span{ font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; }
+  .scroll-cue svg{ width:14px; height:14px; }
+  @keyframes bob{ 0%,100%{ transform: translateX(-50%) translateY(0); } 50%{ transform: translateX(-50%) translateY(8px); } }
+
+  /* ---------- PHOTO FRAME (matting style) ---------- */
+  .photo-frame{
+    padding:10px; border:1px solid var(--line);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(201,168,118,0.08);
+    position:relative;
+  }
+  .photo-frame::before{
+    content:''; position:absolute; inset:5px; border:1px solid rgba(201,168,118,0.25);
+    pointer-events:none; z-index:1;
+  }
+  .photo-frame img{
+    filter: saturate(0.92) contrast(1.04); transition: filter .5s ease, transform .6s ease;
+  }
+  .photo-frame:hover img{ filter: saturate(1.05) contrast(1.02); transform: scale(1.04); }
 </style>
 </head>
 <body>
@@ -198,7 +247,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
   <div class="eyebrow">Sebuah Surat Untuk</div>
-  <h1>[Ketayangan aku yang imup]</h1>
+  <h1>Ketayangan aku yang imup</h1>
   <p class="sub">Sebelum kamu lanjut, tutup mata sebentar &mdash; lalu klik segelnya.</p>
   <div class="seal-wrap">
     <div class="seal" id="sealBtn" role="button" aria-label="Buka surprise">
@@ -207,6 +256,10 @@
       </svg>
     </div>
     <div class="seal-label">Buka ini tayaang akuu</div>
+  </div>
+  <div class="scroll-cue">
+    <span>Gulir</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16m0 0-6-6m6 6 6-6"/></svg>
   </div>
 </section>
 
@@ -218,14 +271,14 @@
   <div class="timeline">
 
     <div class="entry">
-      <div class="entry-date">Bab Satu &middot; [23/12/2024]</div>
+      <div class="entry-date">Bab Satu &middot; 23 Desember 2024</div>
       <div class="entry-title">Ini kamu pas awal aku liat(sebenernya bukan ini xixi)</div>
       <p class="entry-text">Dulu kamu selucu dan selugu itu kesayangan aku&mdash; manis, lucu, kmu beda dari yang lain aku inget pas awal aku kenal di tele hehe, kamu ngaku ngaku orang depok😏 terus aku deketin deh seiring jalan nya waktu akhirnya aku dapetin kamu eh bukan kamu yang dapet aku yang ganteng ini.</p>
       <div class="photo-frame"><img src="foto1.jpg" alt="Foto 1"></div>
     </div>
 
     <div class="entry">
-      <div class="entry-date">Bab Dua &middot; [Lupa aku tanggal nya]</div>
+      <div class="entry-date">Bab Dua &middot; Lupa Tanggalnya</div>
       <div class="entry-title">First-date kita</div>
       <p class="entry-text">Aku belum sempet buat dapetin foto pas pertama kali ketemu kamu, paling cuma ini&mdash; dulu kamu gugup, pemalu, tapi dulu aku kasih kesan yang buruk hehe, maaf ya sayaang.</p>
      <div class="photo-frame"><img src="foto2.jpg" alt="Foto 2"></div>
@@ -255,6 +308,8 @@
   </div>
 </section>
 
+<div class="divider" style="margin-top:-2rem; padding-bottom:5rem;"><span></span></div>
+
 <!-- ============ FINALE ============ -->
 <section class="finale">
   <div class="candle" id="candle">
@@ -265,7 +320,7 @@
 
   <div class="finale-msg" id="finaleMsg">
     <div class="eyebrow">Selamat Ulang Tahun</div>
-    <h2>[Mahluk kecil]</h2>
+    <h2>Mahluk kecil</h2>
     <p>happy birthday, kesayangan aku ❤️
 
 hari ini orang yang paling aku sayang bertambah umur lagi. dan walaupun aku belum bisa ada di samping kamu buat ngerayain langsung, aku harap kamu tetap bisa ngerasain kalau dari jauh pun ada aku yang selalu mikirin kamu.
@@ -284,7 +339,7 @@ selamat ulang tahun, perempuan kesayanganku, perempuan kuat nya aku. semoga panj
 
 i love you, more than i can properly say. ❤️
  &mdash; ga tau harus bilang apa ke kamu, aku selalu bersyukur punya kamu sampai detik ini dan maafin aku ya kalo masih banyak kurang nya.</p>
-    <div class="signature">&mdash; [Paduka raja bimo]</div>
+    <div class="signature">&mdash; Paduka raja bimo</div>
   </div>
 </section>
 
